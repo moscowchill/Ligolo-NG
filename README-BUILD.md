@@ -17,8 +17,8 @@
 - Works with current Go 1.24.4
 
 **Output:**
-- `agent-stealth-final-upx.exe` (2.7MB) - **Recommended**
-- `agent-stealth-alt-upx.exe` (2.7MB) - Alternative
+- `builds/agent-stealth-final-upx.exe` (2.8MB) - **Recommended**
+- `builds/agent-stealth-alt-upx.exe` (2.8MB) - Alternative
 - Plus uncompressed versions
 
 ### 2. `build-garble.sh` (Advanced - Requires Go 1.25+)
@@ -36,7 +36,7 @@
 - Maximum AV evasion
 
 **Output:**
-- `agent-garbled-tiny-upx.exe` - **Best evasion**
+- `builds/agent-garbled-tiny-upx.exe` - **Best evasion**
 - Multiple variants with different obfuscation levels
 
 ## Quick Start
@@ -49,7 +49,7 @@
 2. **Test the recommended binary:**
    ```bash
    # Use this one first
-   agent-stealth-final-upx.exe
+   builds/agent-stealth-final-upx.exe
    ```
 
 ## Evasion Techniques Applied
@@ -70,9 +70,18 @@ The original detection was at offset `0x69A27F` with these bytes:
 
 Our builds have completely different bytes at that location, which should evade the `Trojan:Win32/Wacatac.B!ml` detection.
 
+## Build Directory
+
+All build artifacts are now stored in the `builds/` directory:
+- `builds/` - Contains all generated `.exe` files
+- Build artifacts are automatically ignored by git
+- The directory structure keeps the repo clean
+
 ## File Cleanup
 
 After building, you can clean up with:
 ```bash
-rm -f agent-*.exe
+rm -f builds/agent-*.exe
+# or
+rm -rf builds/
 ```

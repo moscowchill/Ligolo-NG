@@ -70,32 +70,35 @@ trap cleanup EXIT
 
 echo "[INFO] Building obfuscated Windows agents..."
 
+# Create builds directory
+mkdir -p builds
+
 # Build 1: Standard obfuscated
-echo "[INFO] Building agent-stealth-final.exe..."
+echo "[INFO] Building builds/agent-stealth-final.exe..."
 GOOS=windows GOARCH=amd64 go build \
     -ldflags="-s -w -X main.version=2.1.0 -X main.commit=final -X main.date=$(date +%Y%m%d)" \
     -trimpath \
-    -o agent-stealth-final.exe \
+    -o builds/agent-stealth-final.exe \
     cmd/agent/main.go
 
 # Build 2: Alternative flags
-echo "[INFO] Building agent-stealth-alt.exe..."
+echo "[INFO] Building builds/agent-stealth-alt.exe..."
 GOOS=windows GOARCH=amd64 go build \
     -ldflags="-s -w -X main.version=2.1.1 -X main.commit=alt" \
     -buildmode=exe \
     -trimpath \
-    -o agent-stealth-alt.exe \
+    -o builds/agent-stealth-alt.exe \
     cmd/agent/main.go
 
 # UPX compression if available
 if command -v upx >/dev/null 2>&1; then
     echo "[INFO] Creating UPX compressed versions..."
 
-    cp agent-stealth-final.exe agent-stealth-final-upx.exe
-    upx --best agent-stealth-final-upx.exe >/dev/null 2>&1
+    cp builds/agent-stealth-final.exe builds/agent-stealth-final-upx.exe
+    upx --best builds/agent-stealth-final-upx.exe >/dev/null 2>&1
 
-    cp agent-stealth-alt.exe agent-stealth-alt-upx.exe
-    upx --best agent-stealth-alt-upx.exe >/dev/null 2>&1
+    cp builds/agent-stealth-alt.exe builds/agent-stealth-alt-upx.exe
+    upx --best builds/agent-stealth-alt-upx.exe >/dev/null 2>&1
 
     echo "[SUCCESS] UPX compression completed"
 else
@@ -106,9 +109,9 @@ fi
 echo ""
 echo "Build Summary:"
 echo "=============="
-if ls agent-stealth-*.exe >/dev/null 2>&1; then
-    ls -lah agent-stealth-*.exe | while read line; do
-        filename=$(echo "$line" | awk '{print $9}')
+if ls builds/agent-stealth-*.exe >/dev/null 2>&1; then
+    ls -lah builds/agent-stealth-*.exe | while read line; do
+        filename=$(echo "$line" | awk '{print $9}' | sed 's|builds/||')
         size=$(echo "$line" | awk '{print $5}')
         printf "%-35s %8s\n" "$filename" "$size"
     done
@@ -120,10 +123,10 @@ fi
 echo ""
 echo "Testing Recommendations:"
 echo "========================"
-echo "1. agent-stealth-final-upx.exe     (Primary - full obfuscation + UPX)"
-echo "2. agent-stealth-alt-upx.exe       (Alternative - different flags + UPX)"
-echo "3. agent-stealth-final.exe         (If UPX is detected)"
-echo "4. agent-stealth-alt.exe           (Fallback option)"
+echo "1. builds/agent-stealth-final-upx.exe     (Primary - full obfuscation + UPX)"
+echo "2. builds/agent-stealth-alt-upx.exe       (Alternative - different flags + UPX)"
+echo "3. builds/agent-stealth-final.exe         (If UPX is detected)"
+echo "4. builds/agent-stealth-alt.exe           (Fallback option)"
 
 echo ""
 echo "Changes Applied:"

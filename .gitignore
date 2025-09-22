@@ -3,3 +3,19 @@ setuptun.sh
 dist/
 ligolo-ng.history
 ligolo-selfcerts/
+
+# Build artifacts
+builds/*.exe
+builds/*.upx
+agent*.exe
+proxy*.exe
+*.exe
+*.upx
+
+# Build backups
+cmd/agent/main.go.backup
+cmd/agent/main.go.original
+cmd/proxy/main.go.backup
+
+# Go artifacts
+go1.*.tar.gz
