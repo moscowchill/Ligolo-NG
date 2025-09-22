@@ -95,10 +95,10 @@ if command -v upx >/dev/null 2>&1; then
     echo "[INFO] Creating UPX compressed versions..."
 
     cp builds/agent-stealth-final.exe builds/agent-stealth-final-upx.exe
-    upx --best builds/agent-stealth-final-upx.exe >/dev/null 2>&1
+    upx --best --no-backup builds/agent-stealth-final-upx.exe >/dev/null 2>&1
 
     cp builds/agent-stealth-alt.exe builds/agent-stealth-alt-upx.exe
-    upx --best builds/agent-stealth-alt-upx.exe >/dev/null 2>&1
+    upx --best --no-backup builds/agent-stealth-alt-upx.exe >/dev/null 2>&1
 
     echo "[SUCCESS] UPX compression completed"
 else

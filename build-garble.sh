@@ -104,7 +104,7 @@ if command -v upx >/dev/null 2>&1; then
         if [ -f "builds/agent-garbled-$variant.exe" ]; then
             echo "[INFO] Compressing agent-garbled-$variant.exe..."
             cp "builds/agent-garbled-$variant.exe" "builds/agent-garbled-$variant-upx.exe"
-            if timeout 120 upx --best "builds/agent-garbled-$variant-upx.exe" >/dev/null 2>&1; then
+            if timeout 120 upx --best --no-backup "builds/agent-garbled-$variant-upx.exe" >/dev/null 2>&1; then
                 echo "[SUCCESS] Compressed agent-garbled-$variant-upx.exe"
             else
                 echo "[WARNING] Failed to compress $variant variant (timeout/error)"
