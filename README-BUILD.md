@@ -21,7 +21,24 @@
 - `builds/agent-stealth-alt-upx.exe` (2.8MB) - Alternative
 - Plus uncompressed versions
 
-### 2. `build-garble.sh` (Advanced - Requires Go 1.25+)
+### 2. `build-manual.sh` (Minimal - Manual obfuscation only)
+**Minimal stealth script** - Just string obfuscation, no UPX or garble.
+
+```bash
+./build-manual.sh
+```
+
+**Features:**
+- String obfuscation only
+- No symbol stripping (smaller file size)
+- No UPX compression
+- No garble obfuscation
+- Works with any Go version
+
+**Output:**
+- `builds/agent-manual-only.exe` (11MB) - **Basic stealth**
+
+### 3. `build-garble.sh` (Advanced - Requires Go 1.25+)
 **Future upgrade script** - Use when you upgrade to Go 1.25+.
 
 ```bash
@@ -41,15 +58,21 @@
 
 ## Quick Start
 
-1. **For immediate use:**
+1. **For maximum stealth:**
    ```bash
    ./build.sh
    ```
 
-2. **Test the recommended binary:**
+2. **For minimal changes (if others are detected):**
    ```bash
-   # Use this one first
-   builds/agent-stealth-final-upx.exe
+   ./build-manual.sh
+   ```
+
+3. **Test the recommended binary:**
+   ```bash
+   # Try these in order:
+   builds/agent-stealth-final-upx.exe    # Best compression + obfuscation
+   builds/agent-manual-only.exe          # Minimal changes if others fail
    ```
 
 ## Evasion Techniques Applied

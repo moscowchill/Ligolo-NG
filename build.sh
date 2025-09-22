@@ -90,6 +90,14 @@ GOOS=windows GOARCH=amd64 go build \
     -o builds/agent-stealth-alt.exe \
     cmd/agent/main.go
 
+# Build 3: Manual only (no UPX, just string obfuscation)
+echo "[INFO] Building builds/agent-manual-only.exe..."
+GOOS=windows GOARCH=amd64 go build \
+    -ldflags="-X main.version=1.0.0 -X main.commit=manual -X main.date=$(date +%Y%m%d)" \
+    -trimpath \
+    -o builds/agent-manual-only.exe \
+    cmd/agent/main.go
+
 # UPX compression if available
 if command -v upx >/dev/null 2>&1; then
     echo "[INFO] Creating UPX compressed versions..."
@@ -125,8 +133,9 @@ echo "Testing Recommendations:"
 echo "========================"
 echo "1. builds/agent-stealth-final-upx.exe     (Primary - full obfuscation + UPX)"
 echo "2. builds/agent-stealth-alt-upx.exe       (Alternative - different flags + UPX)"
-echo "3. builds/agent-stealth-final.exe         (If UPX is detected)"
-echo "4. builds/agent-stealth-alt.exe           (Fallback option)"
+echo "3. builds/agent-manual-only.exe           (Manual obfuscation only, no UPX)"
+echo "4. builds/agent-stealth-final.exe         (If UPX is detected)"
+echo "5. builds/agent-stealth-alt.exe           (Fallback option)"
 
 echo ""
 echo "Changes Applied:"
